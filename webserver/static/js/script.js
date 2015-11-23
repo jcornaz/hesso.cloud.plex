@@ -16,7 +16,6 @@ fileManager.config(function($routeProvider) {
         templateUrl : 'static/pages/about.html',
         controller  : 'aboutController'
     })
-
 });
 
 // create the controller and inject Angular's $scope
