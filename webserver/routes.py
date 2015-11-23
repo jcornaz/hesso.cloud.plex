@@ -1,14 +1,12 @@
-from flask import Flask
+from flask import Flask, send_from_directory, url_for
 from about import about_controller
-
-# Start the webserver
-from home import home_controller
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def main(): return home_controller()
+def main():
+    return send_from_directory('static', 'index.html')
 
 
 @app.route('/about')

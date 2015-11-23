@@ -1,5 +1,8 @@
-from flask import render_template
+import flask
+from json_models import get_main_model
 
 
 def about_controller():
-    return render_template('main.html', title='Plex Media File Manager')
+    array = get_main_model(about)
+
+    return flask.jsonify(array)
