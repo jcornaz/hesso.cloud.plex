@@ -6,3 +6,8 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+.navbar-brand .app_logo {
+    width: 20px;
+    display: inline;
+}
