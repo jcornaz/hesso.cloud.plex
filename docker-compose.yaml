@@ -1,0 +1,14 @@
+storageserver:
+  image: debian:jessie
+
+plexserver:
+  image: debian:jessie
+
+  links:
+    - storageserver
+
+webserver:
+  image: debian:jessie
+
+  links:
+    - storageserver
