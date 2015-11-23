@@ -1,15 +1,9 @@
-from flask import Flask
+import routes
 
-__author__ = 'Burgy Benjamin'
+__author__ = 'Burgy Benjamin & Cornaz Jonathan'
 __version__ = 0.1
-
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
+__host__ = 'localhost'
+__debug_mode__ = True
 
 if __name__ == '__main__':
-    app.run()
+    routes.app.run(__host__, debug=__debug_mode__)
