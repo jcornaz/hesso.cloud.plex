@@ -27,7 +27,7 @@ fileManager.controller('mainController', function($scope) {
 // create the controller and inject Angular's $scope
 fileManager.controller('aboutController', function($scope, $http) {
 
-    $http.get("/about").success(function(response)
+    $http.get('/about').success(function(response)
     {
         $scope.version = response.version;
     });
