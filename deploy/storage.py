@@ -1,12 +1,12 @@
-from libcloud.compute.types import Provider
-from libcloud.compute.providers import get_driver
+from libcloud.storage.types import Provider
+from libcloud.storage.providers import get_driver
 
 CONTAINER_NAME = "plex_container"
 
 
 class Storage(object):
-    def __init__(self, username, password):
-        self._driver = get_driver(Provider.S3)(username, password)
+    def __init__(self, access_key, secret_key):
+        self._driver = get_driver(Provider.S3)(access_key, secret_key)
 
     def deploy(self):
         self._container = self._driver.get_container(CONTAINER_NAME)
