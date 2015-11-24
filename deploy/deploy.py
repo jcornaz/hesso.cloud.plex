@@ -1,6 +1,6 @@
 import csv
 import sys
-import subprocess
+import docker_management as dm
 from storage import Storage
 
 
@@ -15,21 +15,15 @@ def read_csv(filename, delimiter):
     return matrix
 
 
-def deploy_containers(access_key, secret_key):
-    subprocess.call(['./ecs-cli', 'configure',
-                     '--region', 'eu-west-1',
-                     '--cluster', 'plex_cluster',
-                     '--access-key', access_key,
-                     '--secret-key', secret_key
-                     ])
-    subprocess.call(['./ecs-cli', 'compose', 'up'])
-
-
 if __name__ == '__main__':
+
+    filename = 'credentials.csv'
+    keypair = 'keypair.pem'
+
     if len(sys.argv) > 1:
         filename = sys.argv[1]
-    else:
-        filename = 'credentials.csv'
+        if len(sys.argv) > 2:
+            keypair = sys.argv[2]
 
     credentials = read_csv(filename, ',')
 
@@ -37,4 +31,4 @@ if __name__ == '__main__':
     secret_key = credentials[1][2]
 
     Storage(access_key, secret_key).deploy()
-    deploy_containers(access_key, secret_key)
+    dm.deploy(keypair, access_key, secret_key)

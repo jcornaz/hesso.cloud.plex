@@ -60,3 +60,4 @@ target/
 
 # Security informations
 *.csv
+*.pem

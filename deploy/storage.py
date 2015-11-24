@@ -10,13 +10,15 @@ class Storage(object):
         self._container = None
 
     def deploy(self):
+        print("deploy storage...")
+
         if self._container is None:
             try:
                 self._container = self._driver.get_container(CONTAINER_NAME)
             except ContainerDoesNotExistError:
                 self._container = self._driver.create_container(CONTAINER_NAME)
 
-        print("container deployed")
+        print("storage up")
 
     def destroy(self):
         if self._container is None:
