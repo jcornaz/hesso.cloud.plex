@@ -57,5 +57,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# Security informations
+*.csv
+
 # Bower
 bower_components/
