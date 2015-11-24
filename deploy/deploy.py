@@ -1,5 +1,6 @@
 import csv
 import sys
+import subprocess
 from storage import Storage
 
 
@@ -14,6 +15,16 @@ def read_csv(filename, delimiter):
     return matrix
 
 
+def deploy_containers(access_key, secret_key):
+    subprocess.call(['./ecs-cli', 'configure',
+                     '--region', 'eu-west-1',
+                     '--cluster', 'plex_cluster',
+                     '--access-key', access_key,
+                     '--secret-key', secret_key
+                     ])
+    subprocess.call(['./ecs-cli', 'compose', 'up'])
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         filename = sys.argv[1]
@@ -22,4 +33,8 @@ if __name__ == '__main__':
 
     credentials = read_csv(filename, ',')
 
-    Storage(credentials[1][1], credentials[1][2]).deploy()
+    access_key = credentials[1][1]
+    secret_key = credentials[1][2]
+
+    Storage(access_key, secret_key).deploy()
+    deploy_containers(access_key, secret_key)

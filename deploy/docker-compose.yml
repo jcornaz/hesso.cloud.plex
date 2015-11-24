@@ -1,0 +1,13 @@
+plexserver:
+  image: debian:jessie
+  cpu_shares: 100
+  mem_limit: 524288000
+  ports:
+    - "80:80"
+
+webserver:
+  image: debian:jessie
+  cpu_shares: 100
+  mem_limit: 524288000
+  ports:
+    - "80:80"
