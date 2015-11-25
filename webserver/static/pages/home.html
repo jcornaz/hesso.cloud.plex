@@ -1,11 +1,11 @@
 <link href="static/css/home.css" rel="stylesheet"/>
-<table class="treeview">
-    <tr>
-        <td>
-            Treeview
-        </td>
-        <td>
-            Details
-        </td>
-    </tr>
-</table>
+
+<div ng-controller="treeViewController">
+    <div data-angular-treeview="true"
+         data-tree-id="home_treeview"
+         data-tree-model="treedata"
+         data-node-id="id"
+         data-node-label="label"
+         data-node-children="children">
+    </div>
+</div>
