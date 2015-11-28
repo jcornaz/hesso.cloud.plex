@@ -30,6 +30,5 @@ def files():
 
 
 @app.route('/file/<path:path>')
-@as_json
 def file(path):
     return file_controller(path)

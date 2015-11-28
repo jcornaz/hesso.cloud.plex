@@ -20,7 +20,6 @@ fileManager.config(function($routeProvider) {
 
 fileManager.controller('mainController', function($scope) {
 
-
 });
 
 fileManager.controller('aboutController', function($scope, $http) {
@@ -32,20 +31,31 @@ fileManager.controller('aboutController', function($scope, $http) {
 
 });
 
-fileManager.controller('treeViewController', function($scope, $http) {
+fileManager.controller('file_details', function($scope)
+{
+});
+
+fileManager.controller('treeViewController', function($scope, $http, $sce) {
 
     $http.get('/files').success(function($response)
     {
-        $scope.treedata =
-        [
-            $response
-        ];
+        $scope.treedata = [ $response ];
     });
+
+    $scope.showFileDetails = function(json)
+    {
+
+    }
 
     $scope.$watch('home_treeview.currentNode', function(newObj, oldObj) {
         if($scope.home_treeview && angular.isObject($scope.home_treeview.currentNode)) {
-            console.log('Node Selected!!');
-            console.log($scope.home_treeview.currentNode);
+
+            var path = $scope.home_treeview.currentNode.id;
+
+            $http.get('/file/' + path).success(function(html)
+            {
+                $scope.details = $sce.trustAsHtml(html);
+            });
         }
     }, false);
 });
