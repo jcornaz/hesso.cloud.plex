@@ -61,3 +61,4 @@ target/
 # Security informations
 *.csv
 *.pem
+credentials.yml
