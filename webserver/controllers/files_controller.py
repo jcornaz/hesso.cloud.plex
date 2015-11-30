@@ -9,7 +9,7 @@ from index import settings
 def files_controller():
     storage_path = normcase(normpath(settings['application']['storage']))
 
-    json = {'label': 'storage', 'id': '.', 'children': browse_folder(storage_path, storage_path)}
+    json = {'label': 'storage', 'id': '<root>', 'children': browse_folder(storage_path, storage_path)}
 
     return flask.jsonify(json)
 
