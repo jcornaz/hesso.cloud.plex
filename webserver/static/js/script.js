@@ -2,7 +2,8 @@
 var fileManager = angular.module('fileManager', ['ngRoute', 'angularTreeview']);
 
 // configure our routes
-fileManager.config(function($routeProvider) {
+fileManager.config(function($routeProvider)
+{
     $routeProvider
 
     // route for the home page
@@ -18,12 +19,13 @@ fileManager.config(function($routeProvider) {
     })
 });
 
-fileManager.controller('mainController', function($scope) {
+fileManager.controller('mainController', function($scope)
+{
 
 });
 
-fileManager.controller('aboutController', function($scope, $http) {
-
+fileManager.controller('aboutController', function($scope, $http)
+{
     $http.get('/about').success(function(response)
     {
         $scope.version = response.version;
@@ -33,23 +35,23 @@ fileManager.controller('aboutController', function($scope, $http) {
 
 fileManager.controller('file_details', function($scope)
 {
+    $scope.deleteFile = function(path)
+    {
+        console.log("Deleting file ...");
+    };
 });
 
-fileManager.controller('treeViewController', function($scope, $http, $sce) {
-
+fileManager.controller('treeViewController', function($scope, $http, $sce)
+{
     $http.get('/files').success(function($response)
     {
         $scope.treedata = [ $response ];
     });
 
-    $scope.showFileDetails = function(json)
+/*    $scope.$watch('home_treeview.currentNode', function(newObj, oldObj)
     {
-
-    }
-
-    $scope.$watch('home_treeview.currentNode', function(newObj, oldObj) {
-        if($scope.home_treeview && angular.isObject($scope.home_treeview.currentNode)) {
-
+        if($scope.home_treeview && angular.isObject($scope.home_treeview.currentNode))
+        {
             var path = $scope.home_treeview.currentNode.id;
 
             $http.get('/file/' + path).success(function(html)
@@ -57,5 +59,37 @@ fileManager.controller('treeViewController', function($scope, $http, $sce) {
                 $scope.details = $sce.trustAsHtml(html);
             });
         }
-    }, false);
+    }, false);*/
+});
+
+fileManager.directive("details", function()
+{
+    return { // Cannot add a new line here
+        linker: function($scope, $http)
+        {
+            console.log('Directive called.')
+
+            if($scope.home_treeview && angular.isObject($scope.home_treeview.currentNode))
+            {
+                var path = $scope.home_treeview.currentNode.id;
+                var html = 'no template';
+
+                $http.get('/file/' + path).success(function(html)
+                {
+                    template = html;
+                });
+            }
+        }
+    };
+});
+
+fileManager.directive('test', function()
+{
+    return {
+        linker: function(scope, element)
+        {
+            console.log('Entered into directive.');
+            element.append('Hello');
+        }
+    };
 });

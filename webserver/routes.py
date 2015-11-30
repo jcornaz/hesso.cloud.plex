@@ -1,9 +1,10 @@
 from flask import Flask, render_template, send_from_directory
 from flask_json import as_json, FlaskJSON
 
-from about import about_controller
-from file import file_controller
-from files import files_controller
+from controllers.about_controller import about_controller
+from controllers.file_controller import file_controller
+from controllers.file_delete_controller import file_delete_controller
+from controllers.files_controller import files_controller
 
 app = Flask(__name__)
 json = FlaskJSON()
@@ -29,6 +30,12 @@ def files():
     return files_controller()
 
 
+@app.route('/file/', defaults = {'path': '<root>'})
 @app.route('/file/<path:path>')
 def file(path):
     return file_controller(path)
+
+
+@app.route('/file/<path:path>', methods = ['DELETE'])
+def file_delete(path):
+    return file_delete_controller(path)
