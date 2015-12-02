@@ -32,10 +32,12 @@ def files():
 
 @app.route('/file/', defaults = {'path': '<root>'})
 @app.route('/file/<path:path>')
+@as_json
 def file(path):
     return file_controller(path)
 
 
 @app.route('/file/<path:path>', methods = ['DELETE'])
+@as_json
 def file_delete(path):
     return file_delete_controller(path)

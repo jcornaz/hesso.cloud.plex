@@ -1,16 +1,23 @@
-from os.path import normpath, normcase, isfile
-from index import settings
-
 from os import remove
+from os.path import isfile, abspath
+from shutil import rmtree
+
+import flask
+
+from index import settings
 
 
 def file_delete_controller(path):
-    storage_path = normcase(normpath(settings['application']['storage']))
-    absolute_path = "{0}/{1}".format(storage_path, path)
+    storage_path = settings['application']['storage']
+    absolute_path = abspath('{0}/{1}'.format(storage_path, path))
 
-    if not isfile(absolute_path):
-        return {'error': True, 'message': "{0} not found.".format(path)}
+    try:
+        if isfile(absolute_path):
+            remove(absolute_path)
+            return flask.jsonify({'error': False, 'message': "File {0} successfully deleted.".format(path)})
+        else:
+            rmtree(absolute_path)
+            return flask.jsonify({'error': False, 'message': "Directory {0} successfully deleted.".format(path)})
 
-    remove(absolute_path)
-
-    return {'error': False, 'message': "File {0} successfully deleted.".format(path)}
+    except Exception as e:
+        return flask.jsonify({'error': True, 'message': e})
