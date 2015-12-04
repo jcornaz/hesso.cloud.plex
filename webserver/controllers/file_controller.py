@@ -38,30 +38,5 @@ def file_controller(path):
     return flask.jsonify(json)
 
 
-# def file_controller(path):
-#     storage_path = normcase(normpath(settings['application']['storage']))
-#
-#     if path != '<root>':
-#         absolute_path = abspath('{0}/{1}'.format(storage_path, path))
-#     else:
-#         absolute_path = storage_path
-#
-#     size = getsize(absolute_path);
-#
-#     if isdir(absolute_path):
-#         return render_template('directory_detail.html',
-#                                name = basename(absolute_path),
-#                                path = remove_base_folder(absolute_path, storage_path))
-#     else:
-#         creation_time = datetime.fromtimestamp(getctime(absolute_path)).strftime('%Y-%m-%d %H:%M:%S')
-#
-#         return render_template('file_detail.html',
-#                                name = basename(absolute_path),
-#                                size = size,
-#                                size_mb = "%.1f" % (size / 1024 / 1024),
-#                                path = remove_base_folder(absolute_path, storage_path),
-#                                creation_time = creation_time)
-
-
 def remove_base_folder(path, base):
     return normcase(normpath(path.replace(base, '').lstrip(sep))).replace('\\', '/')
