@@ -37,13 +37,18 @@ fileManager.controller('file_details', function($scope, $http, $route)
 {
     $scope.deleteFile = function()
     {
-        console.log('Try to delete '+ $scope.details.path)
+        var path = $scope.details.path;
 
-        $http.delete('/file/'+ $scope.details.path).success(function(response)
+        if(window.confirm("You are about to delete the file "+ path + "\n\nAre you sure?"))
         {
-            alert(response.message);
-            $route.reload();
-        });
+            console.log('Try to delete '+ path);
+
+            $http.delete('/file/'+ path).success(function(response)
+            {
+                alert(response.message);
+                $route.reload();
+            });
+        }
     };
 });
 
@@ -51,13 +56,18 @@ fileManager.controller('directory_details', function($scope, $http, $route)
 {
     $scope.deleteDirectory = function()
     {
-        console.log('Try to delete '+ $scope.details.path)
+        var path = $scope.details.path;
 
-        $http.delete('/file/'+ $scope.details.path).success(function(response)
+        if(window.confirm("You are about to delete the directory "+ path + "\n\nAre you sure?"))
         {
-            alert(response.message);
-            $route.reload();
-        });
+            console.log('Try to delete '+ $scope.details.path);
+
+            $http.delete('/file/'+ path).success(function(response)
+            {
+                alert(response.message);
+                $route.reload();
+            });
+        }
     };
 });
 
