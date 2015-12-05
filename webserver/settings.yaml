@@ -1,0 +1,4 @@
+application:
+  host: 'localhost'
+  debug: True
+  storage: 'C:\Users\MiniDfx\Git\hesso.cloud.plex\webserver\storage'

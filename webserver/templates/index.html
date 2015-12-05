@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="fileManager">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>{{title}}</title>
 
+    <link href="/static/images/favicon.png" rel="icon" type="image/x-icon"/>
+
     <!-- Bootstrap -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/application.css" rel="stylesheet">
+    <link type="text/css" href="bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="bower/angular-treeview/css/angular.treeview.css" rel="stylesheet"/>
+    <link type="text/css" href="bower/angular-treeview/css/angular.treeview.css" rel="stylesheet"/>
+    <link type="text/css" href="static/css/application.css" rel="stylesheet"/>
 
     <!-- Angular -->
-    <script src="static/js/angular.min.js"></script>
-    <script src="static/js/angular-route.min.js"></script>
+    <script src="bower/angular/angular.min.js"></script>
+    <script src="bower/angular-route/angular-route.min.js"></script>
+    <script src="bower/angular-treeview/angular.treeview.min.js"></script>
+    <script src="bower/ng-file-upload/ng-file-upload.min.js"></script>
 
     <!-- Application -->
     <script src="static/js/script.js"></script>
 
 </head>
 
-<body ng-controller="mainController">
+<body>
 <div class="container">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#/">Plex File Manager</a>
+                <a class="navbar-brand" href="#/">
+                    <img src="static/images/favicon.png" class="app_logo"/>
+                    {{title}}
+                </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -43,12 +45,12 @@
         </div><!--/.container-fluid -->
     </nav>
 
-    <div class="jumbotron" ng-view></div>
+    <div class="jumbotron" ng-controller="mainController" ng-view></div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bower/jquery/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="static/js/bootstrap.min.js"></script>
+<script src="bower/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

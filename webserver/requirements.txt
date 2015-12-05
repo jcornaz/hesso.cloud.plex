@@ -1,2 +1,5 @@
 apache-libcloud
 flask
+Flask-JSON
+pyyaml
+livereload

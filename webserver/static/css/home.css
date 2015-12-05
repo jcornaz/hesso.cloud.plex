@@ -1,0 +1,11 @@
+table.treeview {
+    width: 100%;
+}
+
+table.treeview td:first-child {
+    width: 20%;
+}
+
+table.treeview td {
+    width:auto;
+}

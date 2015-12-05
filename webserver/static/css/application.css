@@ -6,3 +6,19 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+.navbar-brand .app_logo {
+    width: 20px;
+    display: inline;
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
