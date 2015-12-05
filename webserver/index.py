@@ -1,5 +1,4 @@
 import yaml
-from livereload import Server
 
 import routes
 
@@ -11,8 +10,8 @@ if settings is None:
 
 if __name__ == '__main__':
     # Production way
-    # routes.app.run(settings['application']['host'], debug = settings['application']['debug'])
+    routes.app.run(settings['application']['host'], debug = settings['application']['debug'])
 
     # Development way using livereload
-    server = Server(routes.app.wsgi_app)
-    server.serve(host = 'localhost')
+    # server = Server(routes.app.wsgi_app)
+    # server.serve(host = 'localhost')

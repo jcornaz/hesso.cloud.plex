@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory
 from flask_json import as_json, FlaskJSON
 
 from controllers.about_controller import about_controller
+from controllers.directory_create_controller import directory_create_controller
 from controllers.file_controller import file_controller
 from controllers.file_delete_controller import file_delete_controller
 from controllers.file_upload_controller import file_upload_controller
@@ -17,7 +18,9 @@ def main():
 
 
 @app.route('/about')
-def about(): return about_controller()
+@as_json
+def about():
+    return about_controller()
 
 
 @app.route('/bower/<path:path>')
@@ -46,5 +49,11 @@ def file_delete(path):
 
 @app.route('/file/<path:path>', methods = ['POST'])
 @as_json
-def files_upload(path):
+def file_upload(path):
     return file_upload_controller(path)
+
+
+@app.route('/file/<path:path>', methods = ['PUT'])
+@as_json
+def directory_create(path):
+    return directory_create_controller(path)

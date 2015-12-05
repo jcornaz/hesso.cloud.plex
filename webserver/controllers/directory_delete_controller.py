@@ -1,16 +1,23 @@
-from os.path import normpath, normcase, isdir
-from index import settings
-
 from os import rmdir
+from os.path import isdir
+
+from flask import jsonify
+
+from Services.PathService import get_absolute_storage_path
 
 
 def directory_delete_controller(path):
-    storage_path = normcase(normpath(settings['application']['storage']))
-    absolute_path = "{0}/{1}".format(storage_path, path)
+    absolute_path = get_absolute_storage_path(path)
+    storage_path = get_absolute_storage_path()
 
     if not isdir(absolute_path):
-        return {'error': True, 'message': "{0} not found.".format(path)}
+        json = {'error': True, 'message': "%s not found." % path}
 
-    rmdir(absolute_path)
+    elif absolute_path == storage_path:
+        json = {'error': True, 'message': 'You cannot delete the root storage.'}
 
-    return {'error': False, 'message': "Directory {0} successfully deleted.".format(path)}
+    else:
+        rmdir(absolute_path)
+        json = {'error': False, 'message': "Directory %s successfully deleted." % path}
+
+    return jsonify(json)

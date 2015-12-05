@@ -1,23 +1,24 @@
 from os import remove
-from os.path import isfile, abspath
+
+from os.path import isfile
 from shutil import rmtree
+from flask import jsonify
 
-import flask
-
-from index import settings
+from Services.PathService import get_absolute_storage_path
 
 
 def file_delete_controller(path):
-    storage_path = settings['application']['storage']
-    absolute_path = abspath('{0}/{1}'.format(storage_path, path))
+    absolute_path = get_absolute_storage_path(path)
 
     try:
         if isfile(absolute_path):
             remove(absolute_path)
-            return flask.jsonify({'error': False, 'message': "File {0} successfully deleted.".format(path)})
+            json = {'error': False, 'message': "File %s successfully deleted." % path}
         else:
             rmtree(absolute_path)
-            return flask.jsonify({'error': False, 'message': "Directory {0} successfully deleted.".format(path)})
+            json = {'error': False, 'message': "Directory %s successfully deleted." % path}
 
     except Exception as e:
-        return flask.jsonify({'error': True, 'message': e})
+        json = {'error': True, 'message': e}
+
+    return jsonify(json)

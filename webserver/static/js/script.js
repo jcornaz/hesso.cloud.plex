@@ -45,7 +45,6 @@ fileManager.controller('file_details', function($scope, $http, $route)
 
             $http.delete('/file/'+ path).success(function(response)
             {
-                alert(response.message);
                 $route.reload();
             });
         }
@@ -105,6 +104,26 @@ fileManager.controller('directory_details', function($scope, $http, $route, Uplo
             });
         }
     };
+
+    $scope.createDirectory = function()
+    {
+        var directoryName = prompt('The name of the folder you would like create');
+        if(directoryName)
+        {
+            var path = $scope.details.path
+                        ? sprintf("%s/%s", $scope.details.path, directoryName)
+                        : directoryName;
+
+            $http.put('/file/'+ path).success(function(response)
+            {
+                $route.reload();
+                if(response.error)
+                {
+                    console.log(response.message);
+                }
+            });
+        }
+    };
 });
 
 fileManager.controller('treeViewController', function($scope, $http)
@@ -154,16 +173,6 @@ fileManager.controller('treeViewController', function($scope, $http)
                     });
                 }
             });
-        }
-    };
-})
-.directive('fileUpload', function()
-{
-    return {
-        restrict: 'A',
-        link: function(elem)
-        {
-            elem.pluginUploadCall();
         }
     };
 });

@@ -28,6 +28,7 @@
     "angular": "~1.4.8",
     "angular-route": "~1.4.8",
     "angular-treeview": "*",
-    "ng-file-upload": "~10.1.8"
+    "ng-file-upload": "~10.1.8",
+    "sprintf": "~1.0.3"
   }
 }

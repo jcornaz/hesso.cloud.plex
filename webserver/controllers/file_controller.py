@@ -1,42 +1,43 @@
 from datetime import datetime
-from os.path import normpath, normcase, sep, exists, basename, getmtime, abspath, getsize, isdir, isfile, getctime
+from os.path import exists, basename, getmtime, getsize, isdir, isfile, getctime
 
 import flask
 
-from index import settings
+from Services.PathService import get_absolute_storage_path, get_relative_storage_path, format_path
 
-
-# url: https://docs.python.org/2/library/os.path.html
 
 def file_controller(path):
-    storage_path = settings['application']['storage']
-    absolute_path = abspath('{0}/{1}'.format(storage_path, path))
-    json = {('path', remove_base_folder(absolute_path, storage_path))}
+    absolute_path = get_absolute_storage_path(path)
+    storage_path = get_absolute_storage_path()
+    display_path = get_relative_storage_path(absolute_path)
+
+    json = {'display_path': display_path,
+            'canDelete'   : False,
+            'path'        : format_path(display_path)}
 
     if not exists(absolute_path):
-        json.add(('error', True))
-        json.add(('message', 'The given path is not found.'))
+        json['error'] = True
+        json['message'] = 'The given path is not found.'
 
         return flask.jsonify(json)
 
-    json.add(('exists', True))
-    json.add(('name', basename(absolute_path)))
-    json.add(('lastModification', getmtime(absolute_path)))
+    json['exists'] = True
+    json['name'] = basename(absolute_path)
+    json['lastModification'] = getmtime(absolute_path)
 
     if isdir(absolute_path):
-        json.add(('isFile', False))
+        json['isFile'] = False
 
     if isfile(absolute_path):
         size = getsize(absolute_path)
         creation_time = datetime.fromtimestamp(getctime(absolute_path)).strftime('%Y-%m-%d %H:%M:%S')
 
-        json.add(('isFile', True))
-        json.add(('size', size))
-        json.add(('size_mb', "%.1f" % (size / 1024 / 1024)))
-        json.add(('creation_time', creation_time))
+        json['isFile'] = True
+        json['size'] = size
+        json['size_mb'] = "%.1f" % (size / 1024 / 1024)
+        json['creation_time'] = creation_time
+
+    if not absolute_path == storage_path:
+        json['canDelete'] = True
 
     return flask.jsonify(json)
-
-
-def remove_base_folder(path, base):
-    return normcase(normpath(path.replace(base, '').lstrip(sep))).replace('\\', '/')
