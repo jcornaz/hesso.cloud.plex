@@ -4,6 +4,7 @@ from flask_json import as_json, FlaskJSON
 from controllers.about_controller import about_controller
 from controllers.file_controller import file_controller
 from controllers.file_delete_controller import file_delete_controller
+from controllers.file_upload_controller import file_upload_controller
 from controllers.files_controller import files_controller
 
 app = Flask(__name__)
@@ -30,8 +31,8 @@ def files():
     return files_controller()
 
 
-@app.route('/file/', defaults = {'path': '<root>'})
-@app.route('/file/<path:path>')
+@app.route('/file/', defaults = {'path': '<root>'}, methods = ['GET'])
+@app.route('/file/<path:path>', methods = ['GET'])
 @as_json
 def file(path):
     return file_controller(path)
@@ -41,3 +42,9 @@ def file(path):
 @as_json
 def file_delete(path):
     return file_delete_controller(path)
+
+
+@app.route('/file/<path:path>', methods = ['POST'])
+@as_json
+def files_upload(path):
+    return file_upload_controller(path)

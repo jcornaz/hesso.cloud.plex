@@ -1,5 +1,5 @@
 // Module
-var fileManager = angular.module('fileManager', ['ngRoute', 'angularTreeview']);
+var fileManager = angular.module('fileManager', ['ngRoute', 'angularTreeview', 'ngFileUpload']);
 
 // configure our routes
 fileManager.config(function($routeProvider)
@@ -52,7 +52,7 @@ fileManager.controller('file_details', function($scope, $http, $route)
     };
 });
 
-fileManager.controller('directory_details', function($scope, $http, $route)
+fileManager.controller('directory_details', function($scope, $http, $route, Upload, $timeout)
 {
     $scope.deleteDirectory = function()
     {
@@ -64,8 +64,44 @@ fileManager.controller('directory_details', function($scope, $http, $route)
 
             $http.delete('/file/'+ path).success(function(response)
             {
-                alert(response.message);
                 $route.reload();
+            });
+        }
+    };
+
+    $scope.uploadFiles = function (files)
+    {
+        var path = $scope.details.path;
+        $scope.files = files;
+
+        if (files && files.length)
+        {
+            Upload.upload({url: '/file/'+ path, data: { files: files } }).then(function (response)
+            {
+                $timeout(function ()
+                {
+                    $scope.result = response.data;
+                });
+
+                if(response.data.error)
+                {
+                    alert(response.data.message);
+                }
+                else
+                {
+                    $route.reload();
+                }
+            },
+            function (response)
+            {
+                if (response.status > 0)
+                {
+                    $scope.errorMsg = response.status + ': ' + response.data;
+                }
+            },
+            function (evt)
+            {
+                $scope.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
         }
     };
@@ -78,7 +114,7 @@ fileManager.controller('treeViewController', function($scope, $http)
         $scope.treedata = [ $response ];
     });
 })
-.directive('details', function($http, $compile) // http://stackoverflow.com/questions/13980896/watching-for-data-changes-in-an-angular-directive
+.directive('details', function($http, $compile, $templateRequest)
 {
     return {
         restrict: 'A',
@@ -103,7 +139,7 @@ fileManager.controller('treeViewController', function($scope, $http)
                             templatePath = 'static/pages/directory_detail.html';
                         }
 
-                        $http.get(templatePath).success(function(html)
+                        $templateRequest(templatePath).then(function(html)
                         {
                             var newScope = scope.$new();
                             newScope.details = json;
@@ -118,6 +154,16 @@ fileManager.controller('treeViewController', function($scope, $http)
                     });
                 }
             });
+        }
+    };
+})
+.directive('fileUpload', function()
+{
+    return {
+        restrict: 'A',
+        link: function(elem)
+        {
+            elem.pluginUploadCall();
         }
     };
 });

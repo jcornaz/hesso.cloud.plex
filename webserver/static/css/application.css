@@ -12,23 +12,13 @@ body {
     display: inline;
 }
 
-.btn-file {
-    position: relative;
-    overflow: hidden;
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
 }
-
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
 }
