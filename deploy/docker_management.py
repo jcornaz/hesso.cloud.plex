@@ -5,7 +5,7 @@ def configure(access_key, secret_key):
     print('configure ecs-cli...')
     subprocess.call(['./ecs-cli', 'configure',
                      '--region', 'eu-west-1',
-                     '--cluster', 'plexcluster',
+                     '--cluster', 'default',
                      '--access-key', access_key,
                      '--secret-key', secret_key
                      ])
