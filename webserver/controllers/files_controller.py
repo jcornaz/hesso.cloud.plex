@@ -3,7 +3,7 @@ from os.path import isdir
 
 import flask
 
-from Services.PathService import get_absolute_storage_path, join, get_relative_storage_path, format_path
+from services.PathService import get_absolute_storage_path, join, get_relative_storage_path, format_path
 
 
 def files_controller():

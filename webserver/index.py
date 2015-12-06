@@ -15,7 +15,3 @@ if __name__ == '__main__':
 
     # Production way
     routes.app.run(host, debug = debug, port = port)
-
-    # Development way using livereload
-    # server = Server(routes.app.wsgi_app)
-    # server.serve(host = 'localhost')

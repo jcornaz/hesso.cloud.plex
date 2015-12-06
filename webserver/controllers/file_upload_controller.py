@@ -2,7 +2,7 @@ from os.path import join
 
 from flask import request, jsonify
 
-from Services.PathService import get_absolute_storage_path
+from services.PathService import get_absolute_storage_path
 
 
 def file_upload_controller(path):

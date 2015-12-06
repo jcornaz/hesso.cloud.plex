@@ -3,7 +3,7 @@ from os.path import exists
 
 from flask import jsonify
 
-from Services.PathService import get_absolute_storage_path
+from services.PathService import get_absolute_storage_path
 
 
 def directory_create_controller(path):

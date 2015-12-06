@@ -4,7 +4,7 @@ from os.path import isfile
 from shutil import rmtree
 from flask import jsonify
 
-from Services.PathService import get_absolute_storage_path
+from services.PathService import get_absolute_storage_path
 
 
 def file_delete_controller(path):

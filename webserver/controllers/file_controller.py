@@ -3,7 +3,7 @@ from os.path import exists, basename, getmtime, getsize, isdir, isfile, getctime
 
 import flask
 
-from Services.PathService import get_absolute_storage_path, get_relative_storage_path, format_path
+from services.PathService import get_absolute_storage_path, get_relative_storage_path, format_path
 
 
 def file_controller(path):

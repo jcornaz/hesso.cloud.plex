@@ -1,5 +1,5 @@
 application:
-  host: 'localhost'
+  host: '0.0.0.0'
   port: 80
-  debug: True
-  storage: '/mnt/S3'
+  debug: False
+  storage: 'C:\Users\MiniDfx\Git\hesso.cloud.plex\webserver\storage'
