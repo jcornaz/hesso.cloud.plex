@@ -65,3 +65,13 @@ config.yaml
 
 # Bower
 bower_components/
+
+# LaTeX
+*.aux
+*.lof
+*.lot
+*.out
+*.pdf
+*.synctex.gz
+*.toc
+**_minted-report/
