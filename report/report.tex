@@ -1,7 +1,6 @@
 \documentclass[french]{msereport}
 
-\usepackage{minted}
-\usepackage{tabularx}
+\usepackage{listings}
 
 \newcommand{\aws}{\brand{Amazon Web Services}}
 \newcommand{\plex}{\brand{PLEX}}
@@ -51,11 +50,17 @@
 		Le script de déploiement se charge donc d’instancier une nouvelle machine sur la base de cette image, d’y envoyer les informations de connexion à l’emplacement de stockage, de monter le stockage dans un dossier (/mnt/s3), de partager ce stockage avec le webserveur (via NFS) et démarrer le service \plex.
 	
 	\section{Application Web}
-		Nous avons dévelopé une petite application dans le but de gérer le stockage des médias de Plex à travers le web. L’application permet des opérations simples dans sa première version comme l’ajout de répertoires et fichiers et leurs suppression. Elle supporte le téléchargement sur le S3 storage de fichiers de grandes tailles.
+		Nous avons développé une petite application dans le but de gérer le stockage des médias de Plex à travers le web. L’application permet des opérations simples dans sa première version comme l’ajout de répertoires et fichiers et leurs suppression. Elle supporte le téléchargement sur le S3 storage de fichiers de grandes tailles.
 		L’application utilise le concept de Single Page Application, les librairies \brand{AngularJS}, \brand{Bootstrap} pour la partie client et \brand{Flask} pour la partie serveur en python.
 		Elle peut être configuré par le biais d’un fichier settings.yml à la racine du serveur. L’installation de l’application web se fait facilement avec les commandes suivantes:
-		
+				
 		\code{pip install -r requirements.txt --upgrade \&\& bower install \&\& python index.py}
+		
+		\begin{figure}[h]
+			\label{webserver}
+			\includegraphics[width=\textwidth]{screen_webserver.png}
+			\caption{Application web}
+		\end{figure}
 		
 	
 	\section{Conclusion}
@@ -65,7 +70,10 @@
 			
 	
 	\appendixsection
+	
+		\listoffigures
+		
 		\subsection{Sources}
-			Repository githup: \url{https://github.com/slimaku/hesso.cloud.plex}
+			Les sources sont livrées avec le présent rapport et peuvent être obtenues sur notre repository github: \url{https://github.com/slimaku/hesso.cloud.plex}
 		
 \end{document}
