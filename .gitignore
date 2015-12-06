@@ -23,6 +23,7 @@ var
 *.egg-info/
 .installed.cfg
 *.egg
+ecs-cli
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -59,6 +60,8 @@ target/
 
 # Security informations
 *.csv
+*.pem
+credentials.yml
 
 # Bower
 bower_components/

@@ -1,25 +1,20 @@
-import csv
 import sys
+import docker_management as dm
 from storage import Storage
-
-
-def read_csv(filename, delimiter):
-    matrix = []
-
-    with open(filename, 'r') as file:
-        reader = csv.reader(file, delimiter=delimiter)
-        for row in reader:
-            matrix.append(row)
-
-    return matrix
-
+import yaml
 
 if __name__ == '__main__':
+
+    filename = 'credentials.yml'
+    keypair = 'keypair.pem'
+
     if len(sys.argv) > 1:
         filename = sys.argv[1]
-    else:
-        filename = 'credentials.csv'
+        if len(sys.argv) > 2:
+            keypair = sys.argv[2]
 
-    credentials = read_csv(filename, ',')
+    with open(filename) as file:
+        credentials = yaml.load(file)
 
-    Storage(credentials[1][1], credentials[1][2]).deploy()
+    Storage(credentials['id'], credentials['key']).deploy()
+    dm.deploy(keypair, credentials['id'], credentials['key'])
