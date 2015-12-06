@@ -1,11 +1,9 @@
 from libcloud.storage.types import Provider, ContainerDoesNotExistError
 from libcloud.storage.providers import get_driver
 
-CONTAINER_NAME = "plex_container"
-
-
 class Storage(object):
-    def __init__(self, access_key, secret_key):
+    def __init__(self, bucketname, access_key, secret_key):
+        self._bucketname = bucketname
         self._driver = get_driver(Provider.S3)(access_key, secret_key)
         self._container = None
 
@@ -14,16 +12,16 @@ class Storage(object):
 
         if self._container is None:
             try:
-                self._container = self._driver.get_container(CONTAINER_NAME)
+                self._container = self._driver.get_container(self._bucketname)
             except ContainerDoesNotExistError:
-                self._container = self._driver.create_container(CONTAINER_NAME)
+                self._container = self._driver.create_container(self._bucketname)
 
         print("storage up")
 
     def destroy(self):
         if self._container is None:
             try:
-                self._container = self._driver.get_container(CONTAINER_NAME)
+                self._container = self._driver.get_container(self._bucketname)
             except ContainerDoesNotExistError:
                 self._container = None
 

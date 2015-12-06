@@ -1,20 +1,26 @@
 import sys
-import docker_management as dm
-from storage import Storage
 import yaml
+from libcloud.compute.types import Provider
+from libcloud.compute.providers import get_driver
+from storage import Storage
+from plexservers import PlexMediaServer, FileUploaderServer
 
 if __name__ == '__main__':
 
-    filename = 'credentials.yml'
-    keypair = 'keypair.pem'
-
     if len(sys.argv) > 1:
-        filename = sys.argv[1]
-        if len(sys.argv) > 2:
-            keypair = sys.argv[2]
+        config_filename = sys.argv[1]
+    else:
+        config_filename = 'config.yaml'
 
-    with open(filename) as file:
-        credentials = yaml.load(file)
+    with open(config_filename) as file:
+        config = yaml.load(file)
 
-    Storage(credentials['id'], credentials['key']).deploy()
-    dm.deploy(keypair, credentials['id'], credentials['key'])
+    if config:
+        driver = get_driver(Provider.EC2_EU_WEST)(config['access']['id'], config['access']['key'])
+
+        Storage(config['bucket_name'], config['access']['id'], config['access']['key']).deploy()
+        plex_server = PlexMediaServer(driver, 't2.micro', config['access']['ssh_key'], config['elastic_ips']['plex'], config['bucket_name'])
+        webserver = FileUploaderServer(driver, 't2.micro', config['access']['ssh_key'], config['elastic_ips']['file_uploader'])
+
+        plex_server.run(webserver)
+        webserver.run(plex_server)
