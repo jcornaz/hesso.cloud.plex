@@ -24,4 +24,10 @@ You can create a YAML file containing your credentials whether you don't have th
 
 ### Install
 
-```python deploy/deploy.py <storage_name> [<credentials_path>]```
+```python deploy/deploy.py <storage_name> <credentials_path>```
+
+The <credentials_path> should be a YAML file like this : 
+```
+id: <your_aws_access_id>
+key: <your_aws_access_key>
+```
