@@ -2,7 +2,7 @@ from libcloud.compute.ssh import ParamikoSSHClient
 
 
 class Server(object):
-    def __init__(self, driver, net, size_id, image_id, key_pair):
+    def __init__(self, driver, size_id, key_pair):
         sizes = [size for size in driver.list_sizes() if size.id == size_id]
 
         if not sizes:
@@ -11,16 +11,15 @@ class Server(object):
         else:
             self._size = sizes[0]
 
-        images = [image for image in driver.list_images() if image.id == image_id]
+        images = [image for image in driver.list_images() if image.id == self.image_id]
         if not images:
             raise Exception(
-                "Unavailable image : '" + image_id + "'\navailable images : \n'" +
+                "Unavailable image : '" + self.image_id + "'\navailable images : \n'" +
                 "\n".join([image.id for image in driver.list_images()]))
         else:
             self._image = images[0]
 
         self._driver = driver
-        self._net = net
         self._private_ip = None
         self._public_ips = []
         self._key_pair = key_pair
@@ -34,7 +33,6 @@ class Server(object):
         self._node = self.node = self._driver.create_node(
             name=self.name,
             size=self._size,
-            networks=[self._net],
             image=self._image,
             ex_assign_public_ip=True
         )
@@ -67,6 +65,10 @@ class Server(object):
             ssh.close()
         else:
             raise Exception("Unable to connect to the remote via ssh")
+
+    @property
+    def image_id(self):
+        raise Exception("The property image_id must be overrided")
 
     @property
     def private_ip(self):
