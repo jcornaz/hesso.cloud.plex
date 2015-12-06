@@ -7,26 +7,22 @@ from plexservers import PlexMediaServer, FileUploaderServer
 
 if __name__ == '__main__':
 
-    filename = 'credentials.yml'
-    keypair = 'keypair.pem'
-
-    if len(sys.argv) <= 1:
-        print('You must specify a S3 bucket name')
+    if len(sys.argv) > 1:
+        config_filename = sys.argv[1]
     else:
-        bucketname = sys.argv[1]
-        if len(sys.argv) > 2:
-            filename = sys.argv[2]
-            if len(sys.argv) > 3:
-                keypair = sys.argv[3]
+        config_filename = 'config.yaml'
 
-    with open(filename) as file:
-        credentials = yaml.load(file)
+    with open(config_filename) as file:
+        config = yaml.load(file)
 
-    driver = get_driver(Provider.EC2_EU_WEST)(credentials['id'], credentials['key'])
+    if config:
+        driver = get_driver(Provider.EC2_EU_WEST)(config['access']['id'], config['access']['id'])
 
-    Storage(bucketname, credentials['id'], credentials['key']).deploy()
-    plex_server = PlexMediaServer(driver, 'c2.micro', keypair, bucketname)
-    webserver = FileUploaderServer(driver, 'c2.micro', keypair)
+        # Storage(config['bucket_name'], config['access']['id'], config['access']['id']).deploy()
+        plex_server = PlexMediaServer(driver, 't1.micro', config['access']['ssh_key'], config['elastic_ips']['plex'],
+                                      config['bucket_name'])
+        webserver = FileUploaderServer(driver, 't1.micro', config['access']['ssh_key'],
+                                       config['elastic_ips']['file_uploader'])
 
-    plex_server.run(webserver)
-    webserver.run(plex_server)
+        plex_server.run(webserver)
+        webserver.run(plex_server)

@@ -61,7 +61,7 @@ target/
 # Security informations
 *.csv
 *.pem
-credentials.yml
+config.yaml
 
 # Bower
 bower_components/

@@ -2,7 +2,7 @@ from libcloud.compute.ssh import ParamikoSSHClient
 
 
 class Server(object):
-    def __init__(self, driver, size_id, key_pair):
+    def __init__(self, driver, size_id, key_pair, elastic_ip):
         sizes = [size for size in driver.list_sizes() if size.id == size_id]
 
         if not sizes:
@@ -24,35 +24,44 @@ class Server(object):
         self._public_ips = []
         self._key_pair = key_pair
 
-    def __enter__(self):
-        """ Create the instance """
-
         print("gather arguments ...")
 
         print("instanciating " + self.name + "...")
         self._node = self.node = self._driver.create_node(
             name=self.name,
             size=self._size,
-            image=self._image,
-            ex_assign_public_ip=True
+            image=self._image
         )
 
-        return self
+        self.attach_public_ip(elastic_ip)
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        """ Destroy the instance """
-        try:
-            print("destroying " + self.name + "...")
-        except Exception as e:
-            raise e
-        finally:
-            self._driver.destroy_node(self._node)
-            self._node = None
-
-    def execute(self, user, command):
+    def attach_public_ip(self, ip):
         if not self._node:
             raise Exception("No instanciated node")
-        elif not self._public_ips:
+
+        print("attaching floating ip " + ip + " to " + self.name + "...")
+
+        ips = [floating_ip.ip_address for floating_ip in self._driver.ex_list_floating_ips() if
+               floating_ip.ip_address == ip]
+
+        if not ips:
+            raise Exception("the ip " + ip + " is not available")
+
+        self._driver.ex_attach_floating_ip_to_node(self._node, ips[0])
+        self._public_ips.append(ips[0])
+
+    def detach_public_ips(self):
+        if not self._node:
+            raise Exception("No instanciated node")
+
+        for ip in self._public_ips:
+            print("detaching floating ip " + ip + " from " + self.name + "...")
+            self._driver.ex_detach_floating_ip_from_node(self._node, ip)
+
+        self._public_ips = []
+
+    def execute(self, user, command):
+        if not self._public_ips:
             raise Exception("No public ip attached")
 
         ip = self._driver.wait_until_running([self._node], ssh_interface='public_ips')[0][1][0]
@@ -72,9 +81,6 @@ class Server(object):
 
     @property
     def private_ip(self):
-        if not self._node:
-            raise Exception("No instanciated node")
-
         if not self._private_ip:
             print("wait on " + self.name + " to get a private ip ...")
             self._private_ip = self._driver.wait_until_running([self._node], ssh_interface='private_ips')[0][1][0]

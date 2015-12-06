@@ -3,14 +3,14 @@ import time
 
 
 class PlexMediaServer(Server):
-    def __init__(self, driver, size, key_pair, bucket_name):
-        super(PlexMediaServer, self).__init__(driver, size, key_pair)
+    def __init__(self, driver, size, key_pair, elastic_ip, bucket_name):
+        super(PlexMediaServer, self).__init__(driver, size, key_pair, elastic_ip)
         self._bucketname = bucket_name
         self.is_ready = False
 
     @property
     def image_id(self):
-        return 'ami-56bf1e25'
+        return 'ami-ad8524de'
 
     @property
     def name(self):
@@ -30,8 +30,8 @@ class PlexMediaServer(Server):
 
 
 class FileUploaderServer(Server):
-    def __init__(self, driver, size, key_pair):
-        super(FileUploaderServer, self).__init__(driver, size, key_pair)
+    def __init__(self, driver, size, key_pair, elastic_ip):
+        super(FileUploaderServer, self).__init__(driver, size, key_pair, elastic_ip)
 
     @property
     def name(self):
@@ -39,7 +39,7 @@ class FileUploaderServer(Server):
 
     @property
     def image_id(self):
-        return 'ami-6fd1701c'
+        return 'ami-ad8524de'
 
     def run(self, plex_server):
         while not plex_server.is_ready():
