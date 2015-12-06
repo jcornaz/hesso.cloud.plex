@@ -41,8 +41,7 @@ class Server(object):
 
         print("attaching floating ip " + ip + " to " + self.name + "...")
 
-        ips = [floating_ip.ip_address for floating_ip in self._driver.ex_list_floating_ips() if
-               floating_ip.ip_address == ip]
+        ips = [floating_ip.ip_address for floating_ip in self._driver.ex_list_floating_ips() if floating_ip.ip_address == ip]
 
         if not ips:
             raise Exception("the ip " + ip + " is not available")
