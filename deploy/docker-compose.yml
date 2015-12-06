@@ -1,5 +1,0 @@
-plexserver:
-  image: debian:jessie
-
-webserver:
-  image: debian:jessie
