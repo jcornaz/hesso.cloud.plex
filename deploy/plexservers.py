@@ -3,9 +3,11 @@ import time
 
 
 class PlexMediaServer(Server):
-    def __init__(self, driver, size, key_pair, elastic_ip, bucket_name):
+    def __init__(self, driver, size, key_pair, elastic_ip, bucket_name, access_id, access_key):
         super(PlexMediaServer, self).__init__(driver, size, key_pair, elastic_ip)
         self._bucketname = bucket_name
+        self._access_id = access_id
+        self._access_key = access_key
         self.is_ready = False
 
     @property
@@ -18,8 +20,8 @@ class PlexMediaServer(Server):
 
     def run(self, webserver):
         # Mount S3 storage
-        self.execute('ubuntu',
-                     "sudo mount.s3ql --max-cache-entries 2 s3://" + self._bucketname + " /mnt/s3 --cachesize 204800 --allow-other")
+        self.execute('ubuntu', "echo '[s3]\nstorage-url: s3://" + self._bucketname + "\nbackend-login: " + self._access_id + "\nbackend-password: " + self._access_key + "' > /home/ubuntu/.s3ql/authfile")
+        self.execute('ubuntu', "sudo mount.s3ql --max-cache-entries 2 s3://" + self._bucketname + " /mnt/s3 --cachesize 204800 --allow-other --authfile /home/ubuntu/.s3ql/authfile")
 
         # Share the S3 storage
         self.execute('ubuntu', "echo '/mnt/s3 " + webserver.private_ip + "(rw,async)' >> /etc/exports")

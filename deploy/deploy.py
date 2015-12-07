@@ -19,8 +19,23 @@ if __name__ == '__main__':
         driver = get_driver(Provider.EC2_EU_WEST)(config['access']['id'], config['access']['key'])
 
         Storage(config['bucket_name'], config['access']['id'], config['access']['key']).deploy()
-        plex_server = PlexMediaServer(driver, 't2.micro', config['access']['ssh_key'], config['elastic_ips']['plex'], config['bucket_name'])
-        webserver = FileUploaderServer(driver, 't2.micro', config['access']['ssh_key'], config['elastic_ips']['file_uploader'])
+
+        plex_server = PlexMediaServer(
+            driver,
+            't2.micro',
+            config['access']['ssh_key'],
+            config['elastic_ips']['plex'],
+            config['bucket_name'],
+            config['access']['id'],
+            config['access']['key']
+        )
+
+        webserver = FileUploaderServer(
+            driver,
+            't2.micro',
+            config['access']['ssh_key'],
+            config['elastic_ips']['file_uploader']
+        )
 
         plex_server.run(webserver)
         webserver.run(plex_server)
