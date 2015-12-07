@@ -18,16 +18,26 @@ This project provides:
 
 You need credentials from Amazon S3 for running scripts for deployment purposes
 
-### Credentials
-
-You can create a YAML file containing your credentials whether you don't have the private/public keys infrastructure yet.
-
 ### Install
 
-```python deploy/deploy.py <storage_name> <credentials_path>```
+You need to
+* Create and download a ssh keypair from AWS
+* Create a YAML config file (see bellow)
+* Install the dependences (you need python, pip and : `pip install -r requirements.txt`)
+* `python deploy.py config-file`
 
-The <credentials_path> should be a YAML file like this : 
+The config file should look like this :
 ```
-id: <your_aws_access_id>
-key: <your_aws_access_key>
+access:
+  id: <aws-access-id>
+  key: <aws-access-key>
+  ssh_key: <path-to-the-ssh-key>
+
+elastic_ips:
+  plex: <publicip-for-the-media-server>
+  file_uploader: <publicip-for-the-web-server>
+
+bucket_name: <S3-storage-bucket-name>
 ```
+
+By default if you don't precise the path to the config file, the script will try to use a 'config.yaml' file.
