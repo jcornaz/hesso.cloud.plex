@@ -18,10 +18,12 @@ lib/
 lib64/
 parts/
 sdist/
-var/
+var
+.idea/
 *.egg-info/
 .installed.cfg
 *.egg
+ecs-cli
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -55,3 +57,21 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Security informations
+*.csv
+*.pem
+config.yaml
+
+# Bower
+bower_components/
+
+# LaTeX
+*.aux
+*.lof
+*.lot
+*.out
+*.pdf
+*.synctex.gz
+*.toc
+**_minted-report/

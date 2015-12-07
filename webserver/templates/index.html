@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fileManager">
+<head>
+    <meta charset="UTF-8"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>{{title}}</title>
+
+    <link href="/static/images/favicon.png" rel="icon" type="image/x-icon"/>
+
+    <!-- Bootstrap -->
+    <link type="text/css" href="bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="bower/angular-treeview/css/angular.treeview.css" rel="stylesheet"/>
+    <link type="text/css" href="bower/angular-treeview/css/angular.treeview.css" rel="stylesheet"/>
+    <link type="text/css" href="static/css/application.css" rel="stylesheet"/>
+
+    <!-- Angular -->
+    <script src="bower/angular/angular.min.js"></script>
+    <script src="bower/angular-route/angular-route.min.js"></script>
+    <script src="bower/angular-treeview/angular.treeview.min.js"></script>
+    <script src="bower/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="bower/sprintf/dist/sprintf.min.js"></script>
+
+    <!-- Application -->
+    <script src="static/js/script.js"></script>
+
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">
+                    <img src="static/images/favicon.png" class="app_logo"/>
+                    {{title}}
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/about">About</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <div class="jumbotron" ng-controller="mainController" ng-view></div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="bower/jquery/dist/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bower/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

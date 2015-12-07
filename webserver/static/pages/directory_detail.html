@@ -1,0 +1,28 @@
+<div ng-controller="directory_details">
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th colspan="2">{{details.name}}</th>
+            </tr>
+            <tr>
+                <td>Path</td>
+                <td>{{details.display_path}}</td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary" ngf-select="uploadFiles($files)">
+        Add
+    </button>
+    <button type="button" class="btn btn-default" ng-click="createDirectory()">
+        Create directory
+    </button>
+    <button type="button" class="btn btn-default" ng-click="deleteDirectory()" ng-show="details.canDelete">
+        Delete
+    </button>
+    <div>
+        <div class="progress" ng-show="progress >= 0">
+            <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+        </div>
+        {{errorMsg}}
+    </div>
+</div>

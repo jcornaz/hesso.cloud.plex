@@ -1,0 +1,22 @@
+<div class="table-responsive" ng-controller="file_details">
+    <table class="table">
+        <tr>
+            <th colspan="2">{{details.name}}</th>
+        </tr>
+        <tr>
+            <td>Size</td>
+            <td>{{details.size_mb}} MB ({{details.size}} bytes)</td>
+        </tr>
+        <tr>
+            <td>Path</td>
+            <td>{{details.display_path}}</td>
+        </tr>
+        <tr>
+            <td>Added</td>
+            <td>{{details.creation_time}}</td>
+        </tr>
+    </table>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="deleteFile()" ng-show="details.canDelete">
+        Delete
+    </button>
+</div>
