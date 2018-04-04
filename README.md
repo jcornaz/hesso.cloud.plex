@@ -1,9 +1,16 @@
 # hesso.cloud.plex
-
-## Introduction
-
 Very small project for deploying a Plex Media Server into an Amazon S3 infrastructure.
 
+## Status
+This was a school project. It is no longer maintained and no support will ever be provided.
+
+The project is available to anyone interested by studying, modifing or using it. However, be aware that it might contains bugs or errors, and some resources might be missing (data or credentials).
+
+Please note that the language and technologies might have been new for the contributors when developping the project. Time frame and project requirement are also very different than most *real-world* project. 
+
+**Coding style is not representative of current style of the contributors**
+
+## Introduction
 This project provides:
 
 * scripts for deploying 3 virtual machines
